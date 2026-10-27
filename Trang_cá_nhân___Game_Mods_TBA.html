@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trang cá nhân & Game Mods TBA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #0f1015;
+      color: #f3f4f6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .card-bg {
+      background: #181920;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Hiệu ứng dấu nháy con trỏ máy tính */
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      background-color: #3b82f6;
+      margin-left: 2px;
+      animation: blink 0.7s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* CSS cho màn hình Loading */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #0f1015;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+    /* Vòng xoay bao quanh chữ TBA */
+    .loading-spinner-ring {
+      width: 110px;
+      height: 110px;
+      border: 3px solid rgba(255, 255, 255, 0.08);
+      border-top: 3px solid #3b82f6;
+      border-bottom: 3px solid #3b82f6;
+      border-radius: 50%;
+      animation: spin 1.2s linear infinite;
+      position: absolute;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .loading-bar {
+      width: 130px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 15px;
+      position: relative;
+    }
+    .loading-bar-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 40%;
+      background: #3b82f6;
+      border-radius: 10px;
+      animation: progressMove 1.5s infinite ease-in-out;
+    }
+    @keyframes progressMove {
+      0% { left: -40%; }
+      100% { left: 100%; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-start p-4 sm:p-6 relative">
+
+  <!-- MÀN HÌNH LOADING -->
+  <div id="loading-screen">
+    <!-- Khung chứa vòng xoay và chữ TBA ở chính giữa -->
+    <div class="relative w-32 h-32 flex items-center justify-center mb-4">
+      <div class="loading-spinner-ring"></div>
+      <span class="text-3xl font-black tracking-widest text-white drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">TBA</span>
+    </div>
+    <h2 class="text-white font-bold text-lg tracking-wide mb-1">TBA MOD</h2>
+    <p class="text-gray-400 text-xs tracking-wider mb-1">Đang khởi động...</p>
+    <div class="loading-bar">
+      <div class="loading-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- Nút Bật/Tắt Nhạc Nền -->
+  <div class="absolute top-4 right-4 z-50">
+    <button id="audio-btn" onclick="toggleAudio()" class="card-bg text-gray-300 hover:text-white px-3 py-2 rounded-xl text-xs flex items-center gap-2 shadow-lg transition-all border border-gray-700/50">
+      <i id="audio-icon" class="fa-solid fa-volume-xmark text-blue-400"></i>
+      <span id="audio-text">Bật nhạc</span>
+    </button>
+  </div>
+
+  <!-- Thẻ âm thanh nhạc nền -->
+  <audio id="bg-music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+  </audio>
+
+  <div class="w-full max-w-md flex flex-col items-center mt-6">
+    
+    <!-- Dòng chữ gõ máy tính chuyển động vô hạn -->
+    <div class="h-8 flex items-center justify-center mb-4">
+      <span id="typing-text" class="text-blue-400 font-mono font-bold text-lg tracking-wide"></span>
+      <span class="cursor text-lg">&nbsp;</span>
+    </div>
+
+    <!-- Tag & Title -->
+    <div class="bg-gray-800/80 text-gray-300 text-xs px-3.5 py-1 rounded-full mb-3 font-medium border border-gray-700/50 tracking-wide">
+      Trần Bảo An
+    </div>
+    
+    <div class="flex items-center gap-2 mb-6">
+      <h1 class="text-3xl font-extrabold text-white tracking-wide">TBA</h1>
+      <svg class="w-6 h-6 text-blue-500 fill-current" viewBox="0 0 24 24">
+        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+      </svg>
+    </div>
+
+    <!-- Stats -->
+    <div class="card-bg w-full rounded-2xl p-4 mb-6 flex justify-around items-center text-center shadow-lg">
+      <div>
+        <div class="text-lg font-bold text-white">500M+</div>
+        <div class="text-xs text-gray-400">Lượt tải</div>
+      </div>
+      <div class="h-8 w-[1px] bg-gray-800"></div>
+      <div>
+        <div class="text-lg font-bold text-white">2026</div>
+        <div class="text-xs text-gray-400">Cập nhật</div>
+      </div>
+      <div class="h-8 w-[1px] bg-gray-800"></div>
+      <div>
+        <div class="text-lg font-bold text-white">#1</div>
+        <div class="text-xs text-gray-400">IOS, ADR</div>
+      </div>
+    </div>
+
+    <!-- Game Mods Header -->
+    <div class="w-full text-left mb-3">
+      <h2 class="text-lg font-bold text-white tracking-wide">Game Mods</h2>
+    </div>
+
+    <!-- Items List -->
+    <div class="w-full space-y-3">
+      
+      <!-- GTikTok -->
+      <div class="card-bg rounded-2xl p-3.5 flex items-center justify-between hover:bg-gray-800/50 transition-all">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-black flex items-center justify-center border border-gray-800 overflow-hidden shrink-0">
+            <i class="fa-brands fa-tiktok text-2xl text-white"></i>
+          </div>
+          <div>
+            <div class="font-bold text-white text-sm">GTikTok</div>
+            <div class="text-xs text-gray-400 flex items-center gap-2 mt-0.5">
+              <span>• Cập nhật 4/10</span>
+            </div>
+            <div class="flex gap-1.5 mt-1.5">
+              <span class="bg-blue-500/20 text-blue-400 text-[10px] px-2 py-0.5 rounded-md font-medium border border-blue-500/30">iOS</span>
+            </div>
+          </div>
+        </div>
+        <a href="https://ipas.cc/0eg1z9" target="_blank" class="w-10 h-10 rounded-xl bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center shrink-0 shadow-lg shadow-blue-600/30 transition-all">
+          <i class="fa-solid fa-cloud-arrow-down text-sm"></i>
+        </a>
+      </div>
+
+      <!-- Roblox -->
+      <div class="card-bg rounded-2xl p-3.5 flex items-center justify-between hover:bg-gray-800/50 transition-all">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center shrink-0 shadow-md">
+            <div class="w-6 h-6 bg-white rounded-sm transform -rotate-12 flex items-center justify-center">
+              <div class="w-2 h-2 bg-blue-600 rounded-sm"></div>
+            </div>
+          </div>
+          <div>
+            <div class="font-bold text-white text-sm">Roblox IOS Client Delta(Global)</div>
+            <div class="text-xs text-gray-400 flex items-center gap-2 mt-0.5">
+              <span>• Cập nhật 20/10</span>
+            </div>
+            <div class="flex gap-1.5 mt-1.5">
+              <span class="bg-blue-500/20 text-blue-400 text-[10px] px-2 py-0.5 rounded-md font-medium border border-blue-500/30">iOS</span>
+            </div>
+          </div>
+        </div>
+        <a href="https://deltaios-executor.com" target="_blank" class="w-10 h-10 rounded-xl bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center shrink-0 shadow-lg shadow-blue-600/30 transition-all">
+          <i class="fa-solid fa-cloud-arrow-down text-sm"></i>
+        </a>
+      </div>
+
+      <!-- Discord -->
+      <div class="card-bg rounded-2xl p-3.5 flex items-center justify-between hover:bg-gray-800/50 transition-all">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-[#5865F2] flex items-center justify-center shrink-0 shadow-md">
+            <i class="fa-brands fa-discord text-2xl text-white"></i>
+          </div>
+          <div>
+            <div class="font-bold text-white text-sm">Discord của TBA (Tiktok mod adr,…)</div>
+            <div class="text-xs text-gray-400 flex items-center gap-2 mt-0.5">
+              <span>• Tham gia cộng đồng</span>
+            </div>
+            <div class="flex gap-1.5 mt-1.5">
+              <span class="bg-indigo-500/20 text-indigo-400 text-[10px] px-2 py-0.5 rounded-md font-medium border border-indigo-500/30">Community</span>
+            </div>
+          </div>
+        </div>
+        <a href="https://discord.gg/v2KWsyHby" target="_blank" class="w-10 h-10 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white flex items-center justify-center shrink-0 shadow-lg shadow-indigo-600/30 transition-all">
+          <i class="fa-solid fa-up-right-from-square text-sm"></i>
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    // Ẩn màn hình loading sau 1.8 giây
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        const loader = document.getElementById('loading-screen');
+        if (loader) {
+          loader.style.opacity = '0';
+          setTimeout(function() {
+            loader.style.display = 'none';
+          }, 500);
+        }
+      }, 1800);
+    });
+
+    // Hiệu ứng gõ chữ
+    const textElement = document.getElementById('typing-text');
+    const text = "Hi, Bố m là TBA";
+    let index = 0;
+    let isDeleting = false;
+    let typingSpeed = 120;
+
+    function typeEffect() {
+      if (!isDeleting) {
+        textElement.innerHTML = text.substring(0, index + 1);
+        index++;
+        if (index === text.length) {
+          isDeleting = true;
+          setTimeout(typeEffect, 1800);
+          return;
+        }
+      } else {
+        textElement.innerHTML = text.substring(0, index - 1);
+        index--;
+        if (index === 0) {
+          isDeleting = false;
+          setTimeout(typeEffect, 500);
+          return;
+        }
+      }
+      setTimeout(typeEffect, isDeleting ? 60 : typingSpeed);
+    }
+    typeEffect();
+
+    // Điều khiển nhạc
+    const music = document.getElementById('bg-music');
+    const audioBtn = document.getElementById('audio-btn');
+    const audioIcon = document.getElementById('audio-icon');
+    const audioText = document.getElementById('audio-text');
+    let isPlaying = false;
+
+    function toggleAudio() {
+      if (!isPlaying) {
+        music.play().then(() => {
+          isPlaying = true;
+          audioIcon.className = "fa-solid fa-volume-high text-green-400 animate-pulse";
+          audioText.innerText = "Tắt nhạc";
+        }).catch(e => {
+          console.log("Trình duyệt chặn autoplay:", e);
+        });
+      } else {
+        music.pause();
+        isPlaying = false;
+        audioIcon.className = "fa-solid fa-volume-xmark text-blue-400";
+        audioText.innerText = "Bật nhạc";
+      }
+    }
+  </script>
+
+</body>
+</html>
